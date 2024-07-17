@@ -1,0 +1,117 @@
+메인 검은색 : #262626
+메인 핫핑크 : #fe06c9
+메인 배경 연회색 : #f2f2f2
+
+내비바 글씨 : #F5F5F5
+
+
+데이터베이스
+muselabdb
+
+테이블명
+user, market, comm_like, music_like, playlist ,user_msg, notice, operation, community, comment, music
+
+-----------------------------------------
+user 
+
+user_id (varchar20) pk 
+user_pwd (varchar20) not null
+user_phone (varchar20) not null unique
+user_email (varchar40) not null
+user_nickname (varchar30) not null unique
+user_profile (varchar200) 
+user_info (varchar500)
+user_address
+user_grade not null (일반(기본값) / 공인)
+
+-----------------------------------------
+market
+
+mk_id auto increment pk
+mk_user_id fk
+mk_title not null
+mk_content not null
+mk_image1
+mk_image2
+mk_image3
+mk_image4
+mk_image5
+mk_price not null
+mk_condition 
+mk_category not null
+
+-----------------------------------------
+comm_like
+
+comm_like_id ai pk
+comm_like_user fk
+comm_like_post fk
+
+-----------------------------------------
+music_like
+music_like_id ai pk
+music_like_user fk
+music_like_music fk
+
+-----------------------------------------
+playlist
+
+playlist_id ai pk
+playlist_user fk
+playlist_music fk
+playlist_folder 
+
+-----------------------------------------
+user_msg
+
+user_msg_id ai pk
+user_msg_sender fk
+user_msg_receiver fk
+user_msg_title not null
+user_msg_content not null
+user_msg_date not null
+-----------------------------------------
+notice
+
+notice_id ai pk
+
+-----------------------------------------
+operation
+
+operation_id ai pk
+-----------------------------------------
+community
+
+community_id ai pk
+community_category not null
+community_title not null
+community_content not null
+community_user fk
+community_date not null
+community_image1
+community_image2
+community_image3
+community_image4
+community_image5
+-----------------------------------------
+comment
+
+comment_id ai pk
+comment_comm_id fk
+comment_content not null
+comment_date not null
+comment_user fk
+-----------------------------------------
+music
+
+music_id ai pk
+music_title not null
+music_info not null
+music_user fk
+music_genre not null
+music_album
+music_date not null
+music_image
+-----------------------------------------
+
+
