@@ -1,0 +1,159 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"
+	isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%
+	request.setCharacterEncoding("utf-8");
+%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>MuseLab</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${contextPath}/css/font.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript">
+				function commentDelConfirm(){
+					if(confirm("해당 댓글을 삭제할까요?")==true)
+						alert("삭제되었습니다.")
+					else
+						return false;
+				}
+				function musicDelConfirm(){
+					if(confirm("해당 게시물을 삭제할까요?")==true)
+						alert("삭제되었습니다.")
+					else
+						return false;
+				}
+		</script>
+	</head>
+	<body>
+		<%@ include file="/WEB-INF/views/user/navbar.jsp" %>
+		<div class="container">
+			<div class="content p-3">
+					<c:set var="userId" value="${user.userId}"/>
+				<c:forEach var="workspace" items="${workspaceList}">
+				                <h2>${workspace.musicTitle}</h2>
+				                <hr>
+				                <div class="card w-75 mx-auto">
+				                    <div class="card-body">
+				                        <p class="card-title text-end">${workspace.musicDate}</p>
+				                        <p class="card-title text-end">${workspace.userNickname}</p>
+										
+										
+										<c:set var="mImage" value="${workspace.musicImage}"/>
+										<c:if test="${mImage ne 'image'}">
+										<img src="${contextPath}/images/workspace/${workspace.musicImage}" class="img-thumbnail" style="width:300px;" alt="${workspace.musicTitle}">
+										</c:if>
+										
+										<c:set var="mLink" value="${workspace.musicLink}"/>
+										<c:if test="${!empty mLink}">
+											<div id="player"></div>
+										</c:if>
+										
+										<c:set var="mFile" value="${workspace.musicFile}"/>
+										<c:if test="${mFile ne 'file'}">
+										<audio src="${contextPath}/music/${workspace.musicFile}" controls></audio>
+										</c:if>
+										
+				                        <h4 class="card-text"><pre>${workspace.musicInfo}</pre></h4>
+										<c:set var="mId" value="${workspace.userId}"/>
+										<c:if test="${userId == mId}">
+	                        <a href="${contextPath}/workspace/workspaceModButton.do?musicId=${workspace.musicId}" class="btn btn-success" name="musicMod">수정</a>
+	                        <a href="${contextPath}/workspace/workspaceDel.do?musicId=${workspace.musicId}" class="btn btn-danger" onclick="return musicDelConfirm()" name="musicDel">삭제</a>
+										</c:if>
+				                    </div>
+				                </div>
+				</c:forEach>
+										<form action="${contextPath}/workspace/musicLikeInsert.do" method="post">
+											<input type="hidden" name="musicId" value=${workspaceList[0].musicId}>
+											<input type="hidden" name="userId" value=${user.userId}>
+										<button type="submit" class="btn">
+											<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+										</svg></button>
+										</form>
+									<p>${musicLike}</p>
+				<c:forEach var="comment" items="${commentList}">
+					<p>${comment.userNickname}</p>
+					<p>${comment.musicCommentContent}</p>
+					
+	                <c:set var="cId" value="${comment.userId}"/>
+	                <c:if test="${userId == cId}">
+	                    <div class="text-center mb-3">
+	                        <a href="${contextPath}/workspace/musicCommentDel.do?musicCommentId=${comment.musicCommentId}" class="btn btn-danger" onclick="return commentDelConfirm()" name="commentDel">삭제하기</a>
+	                    </div>
+	                </c:if>
+				</c:forEach>
+							
+							
+							<form action="${contextPath}/workspace/musicCommentInsert.do" method="post">
+								<input type="text" class="form-control" name="musicCommentContent">
+								<input type="hidden" name="musicId" value=${workspaceList[0].musicId}>
+								<input type="hidden" name="userId" value=${user.userId}>
+								<button type="submit" class="btn btn-primary">등록</button>
+							</form>	
+			       </div>
+		</div>
+		<%@ include file="/WEB-INF/views/user/footer.jsp" %>
+		
+		<script>
+			// 유튜브 링크를 정규표현식 활용해 video id 추출
+			var musicLink = "${workspaceList[0].musicLink}";
+			function youtube_parser(url){
+				var url = musicLink;
+				var i, r, rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+			    r = url.match(rx);
+			    return r[1];
+			}
+
+			 // Iframe Player API를 비동기적으로 로드
+		      var tag = document.createElement('script');
+
+		      tag.src = "https://www.youtube.com/iframe_api";
+		      var firstScriptTag = document.getElementsByTagName('script')[0];
+		      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		      // API 코드를 다운로드 받은 다음에 <iframe>을 생성하는 기능 (youtube player도 더불어)
+		      var player;
+		      function onYouTubeIframeAPIReady() {
+		        player = new YT.Player('player', {
+		          height: '360',  //변경가능-영상 높이
+		          width: '640',  //변경가능-영상 너비
+		          videoId: youtube_parser(musicLink),  //변경-영상ID
+		          playerVars: {
+		          	'rel': 0,    //연관동영상 표시여부(0:표시안함)
+		            'controls': 1,    //플레이어 컨트롤러 표시여부(0:표시안함)
+		            'autoplay' : 0,   //자동재생 여부(1:자동재생 함, mute와 함께 설정)
+		            'mute' : 0,   //음소거여부(1:음소거 함)
+		            'loop' : 1,    //반복재생여부(1:반복재생 함)
+		            'playsinline' : 1    //iOS환경에서 전체화면으로 재생하지 않게
+		          },
+		          events: {
+<!--		            'onReady': onPlayerReady, //onReady 상태일 때 작동하는 function이름-->
+		            'onStateChange': onPlayerStateChange //onStateChange 상태일 때 작동하는 function이름
+		          }
+		        });
+		      }
+
+		      // 4. API는 비디오 플레이어가 준비되면 아래의 function을 불러올 것이다.
+<!--		      function onPlayerReady(event) {-->
+<!--		        event.target.playVideo();-->
+<!--		      }-->
+
+		      // 5. API는 플레이어의 상태가 변화될 때 아래의 function을 불러올 것이다.
+		      //    이 function은 비디오가 재생되고 있을 때를 가르킨다.(state=1),
+		      //    플레이어는 6초 이상 재생되고 정지되어야 한다.
+		      var done = false;
+		      function onPlayerStateChange(event) {
+		        if (event.data == YT.PlayerState.PLAYING && !done) {
+		        }
+		      }
+		      function stopVideo() {
+		        player.stopVideo();
+		      }
+		    </script>
+	</body>
+</html>

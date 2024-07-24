@@ -1,0 +1,20 @@
+https://doublesprogramming.tistory.com/198
+https://doublesprogramming.tistory.com/199
+
+
+<c:set var="listnum" value="${fn:length(workspaceList)}"/>
+<c:forEach var="workspace" items="${workspaceList}" varStatus="status">
+<tr onClick="location.href='${contextPath}/workspace/workspaceDetail.do?musicId=${workspace.musicId}'" style="cursor:pointer;" class="table-light">
+<td class="text-center">${listnum - status.count + 1}</td>
+<td class="text-center">${workspace.musicGenre}</td>
+<td class="fw-bold"><span class=ms-3>${workspace.musicTitle}</span></td>
+<td class="text-center">${workspace.userNickname}</td>
+<td class="text-center">${workspace.musicDate}</td>
+<td class="text-center">${workspace.musicViews}</td>
+</tr>
+</c:forEach>
+
+
+
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
