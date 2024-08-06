@@ -1,0 +1,81 @@
+package com.muse.lab.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.muse.lab.service.OrderService;
+import com.muse.lab.service.PayService;
+import com.muse.lab.vo.OrderVO;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
+@Controller
+@RequestMapping("/order")
+public class OrderController {
+    @Autowired
+    private PayService payService;
+
+    @Autowired
+    private OrderService orderService;
+
+    private IamportClient client = new IamportClient("4742743175771788", "Nh8tGhxyVpgEKFW8IcK7TB4546r808FzOiQnwQlrPBOF5paXs6A8Lo5PnXSJnSrebRioaplaVt4g8jhj");
+
+    @ResponseBody
+    @PostMapping("/verify_iamport/{imp_uid}")
+    public IamportResponse<Payment> verifyIamportPOST(@PathVariable(value = "imp_uid") String impUid)
+            throws IamportResponseException, IOException {
+        System.out.println("Received imp_uid: " + impUid);
+        return client.paymentByImpUid(impUid);
+    }
+
+    @PostMapping("/complete")
+    @ResponseBody
+    public int paymentComplete(@RequestBody OrderVO orderVO) throws Exception {
+        String token = payService.getToken();
+        String amountStr = payService.paymentInfo(orderVO.getImpUid(), token);
+
+        if (amountStr == null) {
+            return 0;
+        }
+
+        int amount = Integer.parseInt(amountStr);
+        System.out.println("확인: " + orderVO.getTotalPrice());
+        System.out.println("확인1: " + orderVO.getOrderNum());
+        System.out.println(amount);
+
+        int res = 1;
+
+        if (orderVO.getTotalPrice() != amount) {
+            res = 0;
+            payService.payMentCancle(token, orderVO.getImpUid(), amountStr, "결제 금액 오류");
+        } else {
+            orderService.insert_pay(orderVO);
+        }
+
+        return res;
+    }
+    
+    // 결제 정보 출력하기
+	@GetMapping("complete")
+	public String getOrderComplete(@RequestParam("orderNum") String orderNum, Model model) throws Exception {
+		List<OrderVO> orderVO = orderService.getPay(orderNum);
+		
+		model.addAttribute("orderVO",orderVO);
+		
+		return "order/complete";
+	}
+
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muse.lab.dao.OrderDAO">
+<resultMap id="orderResult" type="OrderVO">
+	<!-- 결제 정보 생성 -->
+	<result property="orderNum" column="ordernum" />
+	<result property="productName" column="productname" />
+	<result property="orderDate" column="orderdate" />
+	<result property="totalPrice" column="totalprice" />
+	<result property="impUid" column="imp_uid" />
+	<result property="userId" column="userid"/>
+	<result property="payMethod" column="paymethod"/>
+
+</resultMap>
+<!-- 결제 정보 넣기-->
+<insert id="insert_pay" parameterType="OrderVO">
+	INSERT INTO orderlist VALUES(#{orderNum},#{productName},#{totalPrice},#{orderDate},#{impUid},#{userId},#{payMethod})
+</insert>
+<!-- 결제 정보 가져오기 -->
+<select id="getPay" parameterType="String" resultMap="orderResult">
+	SELECT * FROM orderlist WHERE ordernum = #{orderNum}
+</select>
+</mapper>

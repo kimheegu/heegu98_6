@@ -1,0 +1,20 @@
+package com.muse.lab.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
+import com.muse.lab.vo.OrderVO;
+
+@Mapper
+@Repository("OrderDAO")
+public interface OrderDAO {
+	
+	// 결제 정보 저장
+	public int insert_pay(OrderVO orderVO) throws DataAccessException;
+	
+	// 결제 정보 가져오기
+	public List<OrderVO> getPay(String orderNum) throws DataAccessException;
+}

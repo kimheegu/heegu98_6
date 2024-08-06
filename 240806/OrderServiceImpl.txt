@@ -1,0 +1,29 @@
+package com.muse.lab.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.muse.lab.dao.OrderDAO;
+import com.muse.lab.vo.OrderVO;
+
+@Service("OrderService")
+public class OrderServiceImpl implements OrderService {
+	
+	@Autowired
+	private OrderDAO orderDAO;
+	
+	// 결제 정보 넣기
+	public int insert_pay(OrderVO orderVO) throws Exception {
+		return orderDAO.insert_pay(orderVO);
+	}
+	
+	// 결제 정보 보여주기
+	@Override
+	public List getPay(String orderNum) throws Exception {
+		List payList = null;
+		payList = orderDAO.getPay(orderNum);
+		return payList;
+	}
+}
