@@ -1,0 +1,228 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muse.lab.dao.UserDAO">
+	<resultMap id="userResult" type="MuseLabVO">
+		<!-- user -->
+		<result property="userId" column="user_id" />
+		<result property="userPwd" column="user_pwd" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userEmail" column="user_email" />
+		<result property="userNickname" column="user_nickname" />
+		<result property="userProfile" column="user_profile" />
+		<result property="userInfo" column="user_info" />
+		<result property="userPostcode" column="user_postcode" />
+		<result property="userAddress" column="user_address" />
+		<result property="userDetailAddress" column="user_detailaddress" />
+		<result property="userNote" column="user_note" />
+		<result property="userGrade" column="user_grade" />
+		<result property="userBank" column="user_bank" />
+		<result property="userAccount" column="user_account" />
+		
+		<!-- music -->
+		<result property="musicId" column="music_id" />
+		<result property="musicTitle" column="music_title" />
+		<result property="musicInfo" column="music_info" />
+		<result property="musicGenre" column="music_genre" />
+		<result property="musicAlbum" column="music_album" />
+		<result property="musicDate" column="music_date" />
+		<result property="musicFile" column="music_file" />
+		<result property="musicImage" column="music_image" />
+		<result property="musicViews" column="music_views" />
+		
+		<!-- music comment -->
+		<result property="musicCommentId" column="music_comment_id" />
+		<result property="musicCommentContent" column="music_comment_content" />
+		<result property="musicCommentDate" column="music_comment_date" />
+		
+		<!-- music like -->
+		<result property="musicLikeId" column="music_like_id" />
+		
+		<!-- playlist -->
+		<result property="playlistId" column="playlist_id" />
+		<result property="playlistFolder" column="playlist_folder" />
+
+		<!-- commuity -->
+		<result property="communityId" column="community_id" />
+		<result property="communityCategory" column="community_category" />
+		<result property="communityTitle" column="community_title" />
+		<result property="communityContent" column="community_content" />
+		<result property="communityDate" column="community_date" />
+		<result property="communityImage1" column="community_image1" />
+		<result property="communityImage2" column="community_image2" />
+		<result property="communityImage3" column="community_image3" />
+		<result property="communityImage4" column="community_image4" />
+		<result property="communityImage5" column="community_image5" />
+		<result property="communityViews" column="community_views" />
+
+		<!-- commuity comment -->
+		<result property="commCommentId" column="comm_comment_id" />
+		<result property="commCommentContent" column="comm_comment_content" />
+		<result property="commCommentDate" column="comm_comment_date" />
+
+		<!-- commuity like -->
+		<result property="commLikeId" column="comm_like_id" />
+
+		<!-- market -->
+		<result property="marketId" column="market_id" />
+		<result property="marketTitle" column="market_title" />
+		<result property="marketContent" column="market_content" />
+		<result property="marketImage1" column="market_image1" />
+		<result property="marketImage2" column="market_image2" />
+		<result property="marketImage3" column="market_image3" />
+		<result property="marketImage4" column="market_image4" />
+		<result property="marketImage5" column="market_image5" />
+		<result property="marketPrice" column="market_price" />
+		<result property="marketCategory" column="market_category" />
+		<result property="marketViews" column="market_views" />
+		<result property="marketStock" column="market_stock" />
+		<result property="marketStatus" column="market_status" />
+
+		<!-- market comment -->
+		<result property="mkReviewId" column="mk_review_id" />
+		<result property="mkReviewContent" column="mk_review_content" />
+		<result property="mkReviewDate" column="mk_review_date" />
+		<result property="mkReviewScore" column="mk_review_score" />
+
+		<!-- market like -->
+		<result property="mkLikeId" column="mk_like_id" />
+
+		<!-- user msg -->
+		<result property="userMsgId" column="user_msg_id" />
+		<result property="userMsgTitle" column="user_msg_title" />
+		<result property="userMsgContent" column="user_msg_content" />
+		<result property="userMsgDate" column="user_msg_date" />
+
+		<!-- notice -->
+		<result property="noticeId" column="notice_id" />
+		<result property="noticeTitle" column="notice_title" />
+		<result property="noticeContent" column="notice_content" />
+		<result property="noticeImage1" column="notice_image1" />
+		<result property="noticeImage2" column="notice_image2" />
+		<result property="noticeImage3" column="notice_image3" />
+		<result property="noticeImage4" column="notice_image4" />
+		<result property="noticeImage5" column="notice_image5" />
+		<result property="noticeViews" column="notice_views" />
+	
+		<!-- operation -->
+		<result property="operationId" column="operation_id" />
+		
+		<!-- event -->
+		<result property="eventId" column="event_id" />
+		
+		<!-- article -->
+		<result property="articleId" column="article_id" />
+		<result property="articleTitle" column="article_title" />
+		<result property="articleContent" column="article_content" />
+		<result property="articleImage1" column="article_image1" />
+		<result property="articleImage2" column="article_image2" />
+		<result property="articleImage3" column="article_image3" />
+		<result property="articleImage4" column="article_image4" />
+		<result property="articleImage5" column="article_image5" />
+		<result property="articleViews" column="article_views" />
+
+		<!-- ad -->
+		<result property="adId" column="ad_id" />
+		<result property="adTitle" column="ad_title" />
+		<result property="adStart" column="ad_start" />
+		<result property="adEnd" column="ad_end" />
+		<result property="adImage" column="ad_image" />
+		<result property="adMemo" column="ad_memo" />
+		<result property="adPosition" column="ad_position" />
+
+		<!-- buy -->
+		<result property="buyId" column="buy_id" />
+		<result property="orderId" column="order_id" />
+		<result property="buyCount" column="buy_count" />
+		<result property="buyStatus" column="buy_status" />
+		<result property="buyDate" column="buy_date" />
+		
+		<!-- admin -->
+		<result property="adminId" column="admin_id" />
+		<result property="adminPwd" column="admin_pwd" />
+		<result property="adminName" column="admin_name" />
+		
+		<!-- kakao -->
+		<result property="kakaoId" column="kakao_id" />
+		<result property="kakaoPhone" column="kakao_phone" />
+		<result property="kakaoEmail" column="kakao_email" />
+		<result property="kakaoName" column="kakao_name" />
+		<result property="kakaoNickname" column="kakao_nickname" />
+	</resultMap>
+
+	<!-- 회원 로그인 -->
+	<select id="userLogin" parameterType="MuseLabVO" resultType="MuseLabVO" resultMap="userResult">
+		SELECT *
+		FROM user
+		WHERE user_id=#{userId} AND user_pwd=#{userPwd}
+	</select>
+
+	<!-- 회원 가입 -->
+	<insert id="userJoin" parameterType="MuseLabVO">
+		INSERT INTO user (user_id, user_pwd, user_phone, user_email, user_nickname, user_grade)
+		VALUES(#{userId}, #{userPwd}, #{userPhone}, #{userEmail}, #{userNickname}, '일반회원')
+	</insert>
+	
+	<!-- 회원가입 확인 -->
+	<select id="userJoinComplete" parameterType="String" resultMap="userResult">
+		SELECT user_id, user_nickname
+		FROM user
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!-- 닉네임 중복 확인 -->
+	<select id="nicknameCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_nickname=#{userNickname}
+	</select>
+	
+	<!-- 기존 비밀번호 일치 확인 -->
+	<select id="pwdCheck" parameterType="String" resultType="String">
+		SELECT user_pwd
+		FROM user
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!-- 카카오 로그인 회원가입 -->
+	<insert id="kakaoJoin" parameterType="MuseLabVO">
+		INSERT INTO user (user_id, user_pwd, user_name, user_phone, user_email, user_nickname, user_grade)
+		VALUES(#{kakaoId}, 'KakaoJoinUser', #{kakaoName}, #{kakaoPhone}, #{kakaoEmail}, #{kakaoNickname}, '일반회원')
+	</insert>
+	
+	<!-- 카카오 로그인 중복 회원 찾기 -->
+	<select id="kakaoCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_id=#{kakaoId}
+	</select>
+	
+	<!-- 회원 정보 불러오기 -->
+	<select id="userInfo" parameterType="MuseLabVO" resultType="MuseLabVO" resultMap="userResult">
+		SELECT *
+		FROM user
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="userInfoMod" parameterType="MuseLabVO">
+		UPDATE user
+		SET user_name=#{userName}, user_phone=#{userPhone},user_email=#{userEmail}, user_nickname=#{userNickname}, user_info=#{userInfo}, 
+		user_postcode=#{userPostcode}, user_address=#{userAddress}, user_detailaddress=#{userDetailAddress}, user_note=#{userNote}, 
+		user_bank=#{userBank}, user_account=#{userAccount}
+		WHERE user_id=#{userId}
+	</update>
+	
+	<!-- 회원 프로필 수정 -->
+	<update id="userProfileMod" parameterType="MuseLabVO">
+		UPDATE user
+		SET user_profile=#{userProfile}
+		WHERE user_id=#{userId}
+	</update>
+</mapper>
